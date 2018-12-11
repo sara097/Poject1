@@ -1,0 +1,74 @@
+[
+  {
+    "n": 0,
+    "time": {
+      "hour": 20,
+      "minute": 21,
+      "second": 41,
+      "nano": 925777700
+    },
+    "temp": 0.78,
+    "pressure": 1005.72,
+    "humidity": 99.0
+  },
+  {
+    "n": 1,
+    "time": {
+      "hour": 20,
+      "minute": 21,
+      "second": 47,
+      "nano": 5763600
+    },
+    "temp": 0.78,
+    "pressure": 1005.72,
+    "humidity": 99.0
+  },
+  {
+    "n": 2,
+    "time": {
+      "hour": 20,
+      "minute": 21,
+      "second": 52,
+      "nano": 85646000
+    },
+    "temp": 0.78,
+    "pressure": 1005.72,
+    "humidity": 99.0
+  },
+  {
+    "n": 3,
+    "time": {
+      "hour": 20,
+      "minute": 21,
+      "second": 56,
+      "nano": 562604900
+    },
+    "temp": 0.78,
+    "pressure": 1005.72,
+    "humidity": 99.0
+  },
+  {
+    "n": 4,
+    "time": {
+      "hour": 20,
+      "minute": 22,
+      "second": 1,
+      "nano": 628942000
+    },
+    "temp": 0.78,
+    "pressure": 1005.72,
+    "humidity": 99.0
+  },
+  {
+    "n": 5,
+    "time": {
+      "hour": 20,
+      "minute": 22,
+      "second": 7,
+      "nano": 208411200
+    },
+    "temp": 0.78,
+    "pressure": 1005.72,
+    "humidity": 99.0
+  }
+]
