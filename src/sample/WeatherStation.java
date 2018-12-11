@@ -245,7 +245,6 @@ public class WeatherStation implements Runnable, Observable {
 
     @Override
     public void updateObservers(Weather forecast) {
-        //this.forecast=forecast;
 
         Platform.runLater(() -> {
             for (Observer observers : weatherUpdates) {
