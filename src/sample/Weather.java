@@ -53,7 +53,7 @@ public class Weather {
 
     @Override
     public String toString() {
-        return n+" - "+temp+" - "+pressure+" - "+humidity;
+        return n + " - " + temp + " - " + pressure + " - " + humidity;
     }
 
 }

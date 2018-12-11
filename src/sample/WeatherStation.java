@@ -20,7 +20,7 @@ public class WeatherStation implements Runnable, Observable {
 
     //Atrybuty klasy
     private String result; //zmienna, ktora jest rezultatem metody getWeather, nie ma settera bo nie chcę, żeby użytkownik mógł ją zmienić
-    private Weather forecast=new Weather();
+    private Weather forecast = new Weather();
 
     private String units;
     private String appid;
@@ -29,25 +29,23 @@ public class WeatherStation implements Runnable, Observable {
     //te do runnable
     private Thread whtr;
     protected volatile boolean isRunning = false;  //volatile - zmiana od razu zostanie zapisana w pamieci glownej i chache zostaje uaktualniony //protected - dostep maja takze klasy dziedzieczace
-    private int interval=10000;
-    private int n=0;
+    private int interval = 10000;
+    private int n = 0;
 
-    private ArrayList<Observer> weatherUpdates=new ArrayList<>();
+    private ArrayList<Observer> weatherUpdates = new ArrayList<>();
 
 
     public WeatherStation(String units, String city, String appid) { //Konstruktor kasy
-        this.units=units;
-        this.appid=appid;
-        this.city=city;
+        this.units = units;
+        this.appid = appid;
+        this.city = city;
     }
 
     public WeatherStation() { //Konstruktor kasy nie przyjmujący żadnych parametrów
-        this.units="metric";
-        this.appid="0cb8430587fd18e33b1ac06361927f0d";
-        this.city="Wroclaw";
+        this.units = "metric";
+        this.appid = "0cb8430587fd18e33b1ac06361927f0d";
+        this.city = "Wroclaw";
     }
-
-
 
 
     //Gettery i settery
@@ -130,7 +128,7 @@ public class WeatherStation implements Runnable, Observable {
     private String getWeather() {
         try {
 
-            StringBuilder adr=new StringBuilder();
+            StringBuilder adr = new StringBuilder();
             adr.append("http://api.openweathermap.org/data/2.5/weather?q=");
             adr.append(city);
             adr.append("&units=");
@@ -171,19 +169,19 @@ public class WeatherStation implements Runnable, Observable {
     //publiczna metoda typu void służąca do przypisania wartosci pogody atrybutom klasy
     private void mapWeather() {
         //utworzenie GsonBuildera
-        Gson gson=new GsonBuilder()
+        Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
 
-        String pogoda=getWeather(); //utworzenie Stringa z rezultatem ktory zwraca wywołana metoda getWeather
-        Map m=gson.fromJson(pogoda,Map.class); //utworzzenie mapy obiektu
-        String output=m.get("main").toString(); //utworzenie Stringa z interesującą nas wartością atrybutu obiektu
+        String pogoda = getWeather(); //utworzenie Stringa z rezultatem ktory zwraca wywołana metoda getWeather
+        Map m = gson.fromJson(pogoda, Map.class); //utworzzenie mapy obiektu
+        String output = m.get("main").toString(); //utworzenie Stringa z interesującą nas wartością atrybutu obiektu
 
         output = output.replaceAll("[^\\d.\\s]", ""); //usunięcie z atrubutu wszystkiego co nie jest liczbą, kropką lub spacją
-        String[]parameters=output.split(" "); //rozdzielenie Stringa na tablice Stringów , gdzie każdy rodzielony był spacją
+        String[] parameters = output.split(" "); //rozdzielenie Stringa na tablice Stringów , gdzie każdy rodzielony był spacją
 
         //przypisanie wartości do atrubutów klasy
-        forecast=new Weather();
+        forecast = new Weather();
         forecast.setTemp(Double.parseDouble(parameters[0]));
         forecast.setPressure(Double.parseDouble(parameters[1]));
         forecast.setHumidity(Double.parseDouble(parameters[2]));
@@ -231,15 +229,15 @@ public class WeatherStation implements Runnable, Observable {
 
     @Override
     public void addObserver(Observer observer) {
-        if(!weatherUpdates.contains(observer))
-        weatherUpdates.add( observer);
+        if (!weatherUpdates.contains(observer))
+            weatherUpdates.add(observer);
     }
 
     @Override
     public void removeObserver(Observer observer) throws NoSuchElementException {
-        if (weatherUpdates.contains(observer)){
+        if (weatherUpdates.contains(observer)) {
             weatherUpdates.remove(observer);
-        }else{
+        } else {
             throw new IllegalArgumentException("No such observer");
         }
 
@@ -249,8 +247,8 @@ public class WeatherStation implements Runnable, Observable {
     public void updateObservers(Weather forecast) {
         //this.forecast=forecast;
 
-        Platform.runLater(()->{
-            for (Observer observers:weatherUpdates){
+        Platform.runLater(() -> {
+            for (Observer observers : weatherUpdates) {
                 observers.updateData(forecast);
             }
 

@@ -20,8 +20,8 @@ public class Chart2Update implements Display {
         this.weather2 = weather2;
         this.updateDataCity1 = updateDataCity1;
         this.updateDataCity2 = updateDataCity2;
-        this.city1=city1;
-        this.city2=city2;
+        this.city1 = city1;
+        this.city2 = city2;
     }
 
     @Override
