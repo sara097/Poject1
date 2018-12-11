@@ -74,14 +74,11 @@ public class Controller {
     @FXML
     private TextField OCCityTxt;
 
-
     @FXML
     private ComboBox<String> OCUnits;
 
-
     @FXML
     private TextField OCTimeS;
-
 
     @FXML
     private Text OCItyField;
@@ -284,6 +281,7 @@ public class Controller {
         OTimeTxt.setText(" ");
         OCfileName.setStyle("-fx-background-color: white;");
         OCfileName.clear();
+
         int interval = Integer.parseInt(OCTimeS.getText()) * 1000;
 
         //wielkosc liter nie ma znaczenia ale pod warunkiem ze to miasto ma jeden wyraz
@@ -294,21 +292,16 @@ public class Controller {
         cityCheck(city, OCCityTxt, OCItyField);
         timeCheck(interval, OCTimeS, OTimeTxt);
 
-
         String units = "";
-        if(!OCUnits.getValue().equals("Standard")){
-            units=OCUnits.getValue();
+        if (!OCUnits.getValue().equals("Standard")) {
+            units = OCUnits.getValue();
         }
         String appiD = "0cb8430587fd18e33b1ac06361927f0d";
 
-        XYChart.Series<Number, Number> tTSeries = new XYChart.Series<>();
-        XYChart.Series<Number, Number> tHSeries = new XYChart.Series<>();
-        XYChart.Series<Number, Number> tPSeries = new XYChart.Series<>();
         OCChart.getData().removeAll(OCChart.getData());
 
         ws1 = new WeatherStation(units, city, appiD);
         ws1.setInterval(interval);
-
         ws1.start();
 
         Chart1Update chart1Update = new Chart1Update(OCChart, weather, ChooseParameterBox, yAxis);
@@ -317,7 +310,6 @@ public class Controller {
         ChooseParameterBox.getSelectionModel()
                 .selectedItemProperty()
                 .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> chart1Update.display());
-
 
         data.clear();
         WeatherUpdate wu = new WeatherUpdate(data);
@@ -336,7 +328,7 @@ public class Controller {
         xAxis.setTickUnit(1);
         xAxis.setLabel("Number of measures");
 
-         StatsUpdate2 statsUpdate=new StatsUpdate2(weather, NumberTxt, TMinTxt, HMinTxt, PMinTxt, TMaxTxt, HMaxTxt, PMaxTxt, TStdTxt, HStdTxt, PStdTxt);
+        StatsUpdate2 statsUpdate = new StatsUpdate2(weather, NumberTxt, TMinTxt, HMinTxt, PMinTxt, TMaxTxt, HMaxTxt, PMaxTxt, TStdTxt, HStdTxt, PStdTxt);
         ws1.addObserver(statsUpdate);
 
     }
@@ -347,12 +339,10 @@ public class Controller {
         ws1.interrupt();
         OCPause.setDisable(true);
         OCPause1.setDisable(false);
-
     }
 
     @FXML
     void OCUPClicked(ActionEvent event) {
-
         ws1.start();
         OCPause1.setDisable(true);
         OCPause.setDisable(false);
@@ -360,7 +350,6 @@ public class Controller {
 
     @FXML
     void OCStopClicked(ActionEvent event) {
-
         ws1.interrupt();
         ws1.stop();
         if (OCfileName.getText().equals("")) {
@@ -368,7 +357,6 @@ public class Controller {
         } else {
             saveToFile(OCfileName.getText() + ".json");
         }
-
         OCCityTxt.setEditable(true);
         OCTimeS.setEditable(true);
         OCPause1.setDisable(true);
@@ -380,7 +368,6 @@ public class Controller {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
-
 
         File file = new File(name);
         try (FileWriter fileWriter = new FileWriter(file)) {
@@ -400,11 +387,11 @@ public class Controller {
                 .setPrettyPrinting()
                 .create();
 
-        CIties[] cities = null;
+        Cities[] cities = null;
         boolean exists = false;
         File file = new File("city.list.json");
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            cities = gson.fromJson(bufferedReader, CIties[].class);
+            cities = gson.fromJson(bufferedReader, Cities[].class);
 
         } catch (FileNotFoundException e) {
             field.setStyle(("-fx-background-color: red;"));
@@ -440,7 +427,7 @@ public class Controller {
         if (interval < 2000) {
             field.setStyle("-fx-background-color: red;");
             text.setText("2 small");
-            throw new IllegalArgumentException("To small");
+            throw new IllegalArgumentException("Interval too small");
         } else {
             field.setStyle("-fx-background-color: #65ff55;");
         }
@@ -460,7 +447,7 @@ public class Controller {
         TCPause.setDisable(false);
         TCStop.setDisable(false);
 
-        if(TCChart.getData().size()>0) {
+        if (TCChart.getData().size() > 0) {
             TCChart.getData().removeAll(TCChart.getData());
         }
 
@@ -488,8 +475,8 @@ public class Controller {
             throw new IllegalArgumentException("the same cities");
         }
         String units = "";
-        if(!TCUnits.getValue().equals("Standard")){
-            units=TCUnits.getValue();
+        if (!TCUnits.getValue().equals("Standard")) {
+            units = TCUnits.getValue();
         }
 
         String appiD = "0cb8430587fd18e33b1ac06361927f0d";
@@ -503,7 +490,7 @@ public class Controller {
         UpdateDataCity2 u2 = new UpdateDataCity2();
         ws2.addObserver(u1);
         ws3.addObserver(u2);
-        Chart2Update chart2Update = new Chart2Update(city01, city02,TCChart, weather, weather2, u1, u2);
+        Chart2Update chart2Update = new Chart2Update(city01, city02, TCChart, weather, weather2, u1, u2);
         chart2Update.display();
 
         ws2.start();

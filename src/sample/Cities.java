@@ -1,6 +1,6 @@
 package sample;
 
-public class CIties {
+public class Cities {
 
     private String id;
     private String name;
