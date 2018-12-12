@@ -328,7 +328,7 @@ public class Controller {
         xAxis.setTickUnit(1);
         xAxis.setLabel("Number of measures");
 
-        StatsUpdate2 statsUpdate = new StatsUpdate2(weather, NumberTxt, TMinTxt, HMinTxt, PMinTxt, TMaxTxt, HMaxTxt, PMaxTxt, TStdTxt, HStdTxt, PStdTxt);
+        StatsUpdate2 statsUpdate = new StatsUpdate2(NumberTxt, TMinTxt, HMinTxt, PMinTxt, TMaxTxt, HMaxTxt, PMaxTxt, TStdTxt, HStdTxt, PStdTxt);
         ws1.addObserver(statsUpdate);
 
     }

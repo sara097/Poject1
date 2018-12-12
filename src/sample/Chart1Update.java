@@ -15,7 +15,7 @@ public class Chart1Update implements Observer, Display {
     private Axis yAxis;
     private ChoiceBox parameter;
 
-    public Chart1Update(ScatterChart<Number, Number> chart, Weather weather, ChoiceBox parameter, Axis yAxis) {
+    public Chart1Update(ScatterChart<Number, Number> chart, ChoiceBox parameter, Axis yAxis) {
         this.chart = chart;
         this.parameter = parameter;
         this.yAxis = yAxis;
