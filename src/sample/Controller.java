@@ -321,7 +321,7 @@ public class Controller {
         yAxis.setTickUnit(1);
         xAxis.setAutoRanging(true);
         xAxis.setTickUnit(1);
-        xAxis.setLabel("Number of measures");
+        xAxis.setLabel("Measurement number");
 
         ChooseParameterBox.getSelectionModel()
                 .selectedItemProperty()
@@ -485,7 +485,7 @@ public class Controller {
         yAxis2.setTickUnit(1);
         xAxis2.setAutoRanging(true);
         yAxis2.setAutoRanging(true);
-        xAxis2.setLabel("Number of measures");
+        xAxis2.setLabel("Measurement number");
         yAxis2.setLabel("Temperature");
 
         ws2.start();
@@ -588,7 +588,7 @@ public class Controller {
             RYAxis.setTickUnit(1);
             RXAxis.setAutoRanging(true);
             RXAxis.setTickUnit(1);
-            RXAxis.setLabel("Number of measures");
+            RXAxis.setLabel("Measurement number");
 
         } catch (NullPointerException e) {
             Error.setText("Wrong file name");
