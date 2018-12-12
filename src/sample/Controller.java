@@ -213,8 +213,9 @@ public class Controller {
     //formatowanie tekstu
     private TextFormatter format() { //prywatna metoda (może ją użyc tylko metoda z klasy) zwracająca obiekt typu TextFormatter
         //ustawienie formatowania tekstu w polach tekstowych (zeby nie wpisywać niedozwolonych wartości
-        Pattern pattern = Pattern.compile("[a-zA-Z]*"); //ustawienie wzoru formatowania tekstu
+        Pattern pattern = Pattern.compile("[a-zA-Z\\s\\']*"); //ustawienie wzoru formatowania tekstu
 
+        //[a-zA-Z]
         //ustawienie formatowania tekstu z użyciem interfejsu UnaryOperator
         // Tworze obiekt klasy TextFormatter, w którego konstruktorze używam operatora lambda
         //jesli wyrazenie wpisywane nie pasuje do wzoru formatowania nie pojawia się w polu tekstowym
@@ -285,10 +286,8 @@ public class Controller {
 
         int interval = Integer.parseInt(OCTimeS.getText()) * 1000;
 
-        //wielkosc liter nie ma znaczenia ale pod warunkiem ze to miasto ma jeden wyraz
         String city1 = OCCityTxt.getText();
-        city1 = city1.toLowerCase();
-        String city = city1.substring(0, 1).toUpperCase() + city1.substring(1);
+        String city = formatCity(city1);
 
         cityCheck(city, OCCityTxt, OCItyField);
         timeCheck(interval, OCTimeS, OTimeTxt);
@@ -362,76 +361,6 @@ public class Controller {
         OCPause.setDisable(true);
     }
 
-    private void saveToFile(String name) {
-
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-
-        File file = new File(name);
-        try (FileWriter fileWriter = new FileWriter(file)) {
-            gson.toJson(data, fileWriter);
-            OCfileName.setStyle("-fx-background-color: #61c441;");
-        } catch (IOException e) {
-            System.out.println("błąd wejścia wyjscia");
-            OCfileName.setStyle("-fx-background-color: red;");
-        }
-
-    }
-
-    private void cityCheck(String toCheck, TextField field, Text text) throws IllegalArgumentException {
-
-        Gson gson = new GsonBuilder()
-                .setPrettyPrinting()
-                .create();
-
-        Cities[] cities = null;
-        boolean exists = false;
-        File file = new File("city.list.json");
-        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
-            cities = gson.fromJson(bufferedReader, Cities[].class);
-
-        } catch (FileNotFoundException e) {
-            field.setStyle(("-fx-background-color: red;"));
-            e.printStackTrace();
-        } catch (IOException e) {
-            field.setStyle(("-fx-background-color: red;"));
-            e.printStackTrace();
-        }
-
-
-        for (int i = 0; i < cities.length; i++) {
-            if (cities[i].getName().equals(toCheck)) {
-                exists = true;
-                break;
-            }
-        }
-
-        if (exists) {
-            text.setText("");
-            field.setStyle(("-fx-background-color: #5df552;"));
-        } else {
-
-            text.setText("Wrong city");
-            field.setStyle(("-fx-background-color: red;"));
-            throw new IllegalArgumentException("There is no such city in a list");
-        }
-
-    }
-
-
-    private void timeCheck(int interval, TextField field, Text text) {
-
-        if (interval < 2000) {
-            field.setStyle("-fx-background-color: red;");
-            text.setText("2 small");
-            throw new IllegalArgumentException("Interval too small");
-        } else {
-            field.setStyle("-fx-background-color: #65ff55;");
-        }
-
-    }
-
     //Two cities
 
     @FXML
@@ -444,15 +373,13 @@ public class Controller {
 
         int interval = Integer.parseInt(TCTimeS.getText()) * 1000;
 
-        //wielkosc liter nie ma znaczenia ale pod warunkiem ze to miasto ma jeden wyraz
         String city1 = TC1.getText();
-        city1 = city1.toLowerCase();
-        String city01 = city1.substring(0, 1).toUpperCase() + city1.substring(1);
+        String city01 = formatCity(city1);
+
         cityCheck(city01, TC1, TCCTxt);
 
         String city2 = TC2.getText();
-        city2 = city2.toLowerCase();
-        String city02 = city2.substring(0, 1).toUpperCase() + city2.substring(1);
+        String city02 = formatCity(city2);
         cityCheck(city02, TC2, TCCTxt);
         timeCheck(interval, TCTimeS, TCTTxt);
 
@@ -491,6 +418,7 @@ public class Controller {
         ws2.start();
         ws3.start();
     }
+
 
     @FXML
     void TCPauseClicked(ActionEvent event) {
@@ -597,6 +525,102 @@ public class Controller {
 
     }
 
+
+    private void saveToFile(String name) {
+
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+
+        File file = new File(name);
+        try (FileWriter fileWriter = new FileWriter(file)) {
+            gson.toJson(data, fileWriter);
+            OCfileName.setStyle("-fx-background-color: #61c441;");
+        } catch (IOException e) {
+            System.out.println("błąd wejścia wyjscia");
+            OCfileName.setStyle("-fx-background-color: red;");
+        }
+
+    }
+
+    private void cityCheck(String toCheck, TextField field, Text text) throws IllegalArgumentException {
+
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+
+        Cities[] cities = null;
+        boolean exists = false;
+        File file = new File("citylist.json");
+        try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
+            cities = gson.fromJson(bufferedReader, Cities[].class);
+
+
+        } catch (FileNotFoundException e) {
+            field.setStyle(("-fx-background-color: red;"));
+            e.printStackTrace();
+        } catch (IOException e) {
+            field.setStyle(("-fx-background-color: red;"));
+            e.printStackTrace();
+        }
+
+
+        for (int i = 0; i < cities.length; i++) {
+            if (cities[i].getName().equals(toCheck)) {
+                exists = true;
+                break;
+            }
+        }
+
+        if (exists) {
+            text.setText("");
+            field.setStyle(("-fx-background-color: #5df552;"));
+        } else {
+
+            text.setText("Wrong city");
+            field.setStyle(("-fx-background-color: red;"));
+            throw new IllegalArgumentException("There is no such city in a list");
+        }
+
+    }
+
+
+    private void timeCheck(int interval, TextField field, Text text) {
+
+        if (interval < 2000) {
+            field.setStyle("-fx-background-color: red;");
+            text.setText("2 small");
+            throw new IllegalArgumentException("Interval too small");
+        } else {
+            field.setStyle("-fx-background-color: #65ff55;");
+        }
+
+    }
+
+    String formatCity(String city1) {
+        city1 = city1.toLowerCase();
+
+        while (city1.charAt(city1.length() - 1) == ' ') {
+            city1 = city1.substring(0, city1.length() - 1);
+        }
+
+        String city = "";
+        String[] citySplit1 = city1.split(" ");
+        if (citySplit1.length > 1) {
+
+            for (int i = 0; i < citySplit1.length; i++) {
+
+                if (i == citySplit1.length - 1)
+                    city = city + citySplit1[i].substring(0, 1).toUpperCase() + citySplit1[i].substring(1);
+                else
+                    city = city + citySplit1[i].substring(0, 1).toUpperCase() + citySplit1[i].substring(1) + " ";
+            }
+        } else {
+            city = city1.substring(0, 1).toUpperCase() + city1.substring(1);
+        }
+        return city;
+    }
+
     private Weather[] readData(String name) {
         //zeby sprawdzic poprawnosc odczytuje plik
         Weather[] weathers = null;
@@ -615,5 +639,6 @@ public class Controller {
         System.out.println(Arrays.toString(weathers));
         return weathers;
     }
+
 
 }
