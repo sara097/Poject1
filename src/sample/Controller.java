@@ -281,6 +281,7 @@ public class Controller {
         OTimeTxt.setText(" ");
         OCfileName.setStyle("-fx-background-color: white;");
         OCfileName.clear();
+        OCChart.getData().removeAll(OCChart.getData());
 
         int interval = Integer.parseInt(OCTimeS.getText()) * 1000;
 
@@ -298,18 +299,9 @@ public class Controller {
         }
         String appiD = "0cb8430587fd18e33b1ac06361927f0d";
 
-        OCChart.getData().removeAll(OCChart.getData());
-
         ws1 = new WeatherStation(units, city, appiD);
         ws1.setInterval(interval);
         ws1.start();
-
-        Chart1Update chart1Update = new Chart1Update(OCChart, ChooseParameterBox, yAxis);
-        ws1.addObserver(chart1Update);
-
-        ChooseParameterBox.getSelectionModel()
-                .selectedItemProperty()
-                .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> chart1Update.display());
 
         data.clear();
         WeatherUpdate wu = new WeatherUpdate(data);
@@ -322,11 +314,18 @@ public class Controller {
         OCCpress.setCellValueFactory(new PropertyValueFactory<>("pressure"));
         OCTable.setItems(data);
 
+        Chart1Update chart1Update = new Chart1Update(OCChart, ChooseParameterBox, yAxis);
+        ws1.addObserver(chart1Update);
+
         yAxis.setAutoRanging(true);
         yAxis.setTickUnit(1);
         xAxis.setAutoRanging(true);
         xAxis.setTickUnit(1);
         xAxis.setLabel("Number of measures");
+
+        ChooseParameterBox.getSelectionModel()
+                .selectedItemProperty()
+                .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> chart1Update.display());
 
         StatsUpdate2 statsUpdate = new StatsUpdate2(NumberTxt, TMinTxt, HMinTxt, PMinTxt, TMaxTxt, HMaxTxt, PMaxTxt, TStdTxt, HStdTxt, PStdTxt);
         ws1.addObserver(statsUpdate);
@@ -377,7 +376,6 @@ public class Controller {
             System.out.println("błąd wejścia wyjscia");
             OCfileName.setStyle("-fx-background-color: red;");
         }
-
 
     }
 
@@ -439,19 +437,8 @@ public class Controller {
     @FXML
     void TCStartClicked(ActionEvent event) {
 
-        if (ws2 != null && ws3 != null && ws2.isRunning && ws3.isRunning) {
-            ws2.stop();
-            ws3.stop();
-        }
-
         TCPause.setDisable(false);
         TCStop.setDisable(false);
-
-        if (TCChart.getData().size() > 0) {
-            TCChart.getData().removeAll(TCChart.getData());
-        }
-
-
         TC1.setStyle("-fx-background-color: white;");
         TC2.setStyle("-fx-background-color: white;");
 
@@ -474,6 +461,7 @@ public class Controller {
             TC2.setStyle("-fx-background-color: red;");
             throw new IllegalArgumentException("the same cities");
         }
+
         String units = "";
         if (!TCUnits.getValue().equals("Standard")) {
             units = TCUnits.getValue();
@@ -493,15 +481,15 @@ public class Controller {
         Chart2Update chart2Update = new Chart2Update(city01, city02, TCChart, weather, weather2, u1, u2);
         chart2Update.display();
 
-        ws2.start();
-        ws3.start();
-
         xAxis2.setTickUnit(1);
         yAxis2.setTickUnit(1);
         xAxis2.setAutoRanging(true);
         yAxis2.setAutoRanging(true);
         xAxis2.setLabel("Number of measures");
         yAxis2.setLabel("Temperature");
+
+        ws2.start();
+        ws3.start();
     }
 
     @FXML
@@ -546,7 +534,6 @@ public class Controller {
         try {
             Weather[] weathers = readData(DataName.getText() + ".json");
             readDatas.addAll(weathers);
-
 
             XYChart.Series<Number, Number> tT = new XYChart.Series<>();
             XYChart.Series<Number, Number> tH = new XYChart.Series<>();
@@ -616,7 +603,6 @@ public class Controller {
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
-
 
         File file = new File(name);
         try (BufferedReader bufferedReader = new BufferedReader(new FileReader(file))) {
