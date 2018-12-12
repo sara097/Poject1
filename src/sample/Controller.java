@@ -269,8 +269,6 @@ public class Controller {
     }
 
     //one city
-
-
     @FXML
     void OCStartClicked(ActionEvent event) {
 
@@ -326,7 +324,7 @@ public class Controller {
                 .selectedItemProperty()
                 .addListener((ObservableValue<? extends String> observable, String oldValue, String newValue) -> chart1Update.display());
 
-        StatsUpdate2 statsUpdate = new StatsUpdate2(NumberTxt, TMinTxt, HMinTxt, PMinTxt, TMaxTxt, HMaxTxt, PMaxTxt, TStdTxt, HStdTxt, PStdTxt);
+        StatsUpdate statsUpdate = new StatsUpdate(NumberTxt, TMinTxt, HMinTxt, PMinTxt, TMaxTxt, HMaxTxt, PMaxTxt, TStdTxt, HStdTxt, PStdTxt);
         ws1.addObserver(statsUpdate);
 
     }
@@ -419,7 +417,6 @@ public class Controller {
         ws3.start();
     }
 
-
     @FXML
     void TCPauseClicked(ActionEvent event) {
         ws2.interrupt();
@@ -427,7 +424,6 @@ public class Controller {
         TCPause.setDisable(true);
         TCPause1.setDisable(false);
     }
-
 
     @FXML
     void TCUPClicked(ActionEvent event) {
@@ -597,7 +593,7 @@ public class Controller {
 
     }
 
-    String formatCity(String city1) {
+    private String formatCity(String city1) {
         city1 = city1.toLowerCase();
 
         while (city1.charAt(city1.length() - 1) == ' ') {
@@ -639,6 +635,5 @@ public class Controller {
         System.out.println(Arrays.toString(weathers));
         return weathers;
     }
-
 
 }

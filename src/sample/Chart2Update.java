@@ -10,7 +10,6 @@ public class Chart2Update implements Display {
     private String city1;
     private String city2;
 
-
     private UpdateDataCity1 updateDataCity1;
     private UpdateDataCity2 updateDataCity2;
 
@@ -36,6 +35,5 @@ public class Chart2Update implements Display {
         updateDataCity2.getTseries2().setName(city2);
 
     }
-
 
 }

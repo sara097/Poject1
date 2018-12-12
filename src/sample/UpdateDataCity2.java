@@ -11,10 +11,6 @@ public class UpdateDataCity2 implements Observer {
         return Tseries2;
     }
 
-    public void setTseries2(XYChart.Series<Number, Number> tseries2) {
-        Tseries2 = tseries2;
-    }
-
     @Override
     public void updateData(Weather weather) {
         Platform.runLater(() -> {

@@ -11,7 +11,7 @@ public class Weather {
     private double humidity;
 
 
-    public Double getTemp() {
+    public double getTemp() {
         return temp;
     }
 
@@ -19,7 +19,7 @@ public class Weather {
         this.temp = temp;
     }
 
-    public Double getPressure() {
+    public double getPressure() {
         return pressure;
     }
 
@@ -27,7 +27,7 @@ public class Weather {
         this.pressure = pressure;
     }
 
-    public Double getHumidity() {
+    public double getHumidity() {
         return humidity;
     }
 
@@ -41,10 +41,6 @@ public class Weather {
 
     public void setN(int n) {
         this.n = n;
-    }
-
-    public LocalTime getTime() {
-        return time;
     }
 
     public void setTime(LocalTime time) {

@@ -47,80 +47,10 @@ public class WeatherStation implements Runnable, Observable {
         this.city = "Wroclaw";
     }
 
-
     //Gettery i settery
-
-
-    public void setResult(String result) {
-        this.result = result;
-    }
-
-    public Thread getWhtr() {
-        return whtr;
-    }
-
-    public void setWhtr(Thread whtr) {
-        this.whtr = whtr;
-    }
-
-    public boolean isRunning() {
-        return isRunning;
-    }
-
-    public void setRunning(boolean running) {
-        isRunning = running;
-    }
-
-    public int getInterval() {
-        return interval;
-    }
 
     public void setInterval(int interval) {
         this.interval = interval;
-    }
-
-    public String getResult() {
-        return result;
-    }
-
-    public Weather getForecast() {
-        return forecast;
-    }
-
-    public void setForecast(Weather forecast) {
-        this.forecast = forecast;
-    }
-
-    public String getUnits() {
-        return units;
-    }
-
-    public void setUnits(String units) {
-        this.units = units;
-    }
-
-    public String getAppid() {
-        return appid;
-    }
-
-    public void setAppid(String appid) {
-        this.appid = appid;
-    }
-
-    public String getCity() {
-        return city;
-    }
-
-    public void setCity(String miasto) {
-        this.city = miasto;
-    }
-
-    public int getN() {
-        return n;
-    }
-
-    public void setN(int n) {
-        this.n = n;
     }
 
     //Metoda prywatna klasy (niedostępna dla użytkownika) zwracająca wartość String
@@ -165,7 +95,6 @@ public class WeatherStation implements Runnable, Observable {
 
     }
 
-
     //publiczna metoda typu void służąca do przypisania wartosci pogody atrybutom klasy
     private void mapWeather() {
         //utworzenie GsonBuildera
@@ -189,7 +118,6 @@ public class WeatherStation implements Runnable, Observable {
         n++;
     }
 
-
     public void start() {
         whtr = new Thread(this, " Clock thread");
         whtr.start();
@@ -205,7 +133,6 @@ public class WeatherStation implements Runnable, Observable {
         isRunning = false;
         whtr.interrupt();
     }
-
 
     @Override
     public void run() {
@@ -249,7 +176,6 @@ public class WeatherStation implements Runnable, Observable {
             for (Observer observers : weatherUpdates) {
                 observers.updateData(forecast);
             }
-
         });
 
     }

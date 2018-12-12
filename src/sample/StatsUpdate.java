@@ -6,7 +6,7 @@ import javafx.scene.control.TextField;
 import java.util.ArrayList;
 
 
-public class StatsUpdate2 implements Observer, Display {
+public class StatsUpdate implements Observer, Display {
 
     private ArrayList<Double> temps = new ArrayList<>();
     private ArrayList<Double> hum = new ArrayList<>();
@@ -24,7 +24,7 @@ public class StatsUpdate2 implements Observer, Display {
     private double[] data = new double[10];
 
 
-    public StatsUpdate2(TextField numberTxt, TextField TMinTxt, TextField HMinTxt, TextField PMinTxt, TextField TMaxTxt, TextField HMaxTxt, TextField PMaxTxt, TextField TStdTxt, TextField HStdTxt, TextField PStdTxt) {
+    public StatsUpdate(TextField numberTxt, TextField TMinTxt, TextField HMinTxt, TextField PMinTxt, TextField TMaxTxt, TextField HMaxTxt, TextField PMaxTxt, TextField TStdTxt, TextField HStdTxt, TextField PStdTxt) {
         this.NumberTxt = numberTxt;
         this.TMinTxt = TMinTxt;
         this.HMinTxt = HMinTxt;
