@@ -304,7 +304,7 @@ public class Controller {
         ws1.setInterval(interval);
         ws1.start();
 
-        Chart1Update chart1Update = new Chart1Update(OCChart, weather, ChooseParameterBox, yAxis);
+        Chart1Update chart1Update = new Chart1Update(OCChart, ChooseParameterBox, yAxis);
         ws1.addObserver(chart1Update);
 
         ChooseParameterBox.getSelectionModel()
