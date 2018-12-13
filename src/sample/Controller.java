@@ -21,8 +21,17 @@ import java.util.Arrays;
 import java.util.function.UnaryOperator;
 import java.util.regex.Pattern;
 
+/**
+ * Class Controller represents GUI control methods.
+ *
+ * @author Sara Strzałka
+ * @version 1.0
+ */
 public class Controller {
 
+    /**
+     * Represents list of units user can choose.
+     */
     private ObservableList<String> units =
             FXCollections.observableArrayList(
                     "Metric",
@@ -30,6 +39,9 @@ public class Controller {
                     "Standard"
             );
 
+    /**
+     * Represents list of parameters user can choose to display.
+     */
     private ObservableList<String> parameters =
             FXCollections.observableArrayList(
                     "Temperature",
@@ -37,180 +49,311 @@ public class Controller {
                     "Pressure"
             );
 
+    /**
+     * Represents WeatherStation object.
+     */
     private WeatherStation ws1;
+    /**
+     * Represents WeatherStation object.
+     */
     private WeatherStation ws2;
+    /**
+     * Represents WeatherStation object.
+     */
     private WeatherStation ws3;
 
+    /**
+     * Represents list of gathered weather data.
+     */
     private final ObservableList<Weather> data = FXCollections.observableArrayList(
             new Weather());
 
+    /**
+     * Represents Weather object.
+     */
     private Weather weather = new Weather();
+    /**
+     * Represents Weather object.
+     */
     private Weather weather2 = new Weather();
 
+    /**
+     * Represents TableView of one city weather parameters.
+     */
     @FXML
     private TableView<Weather> OCTable;
-
-    @FXML
-    private NumberAxis RXAxis;
-
-    @FXML
-    private NumberAxis RYAxis;
-
+    /**
+     * Represents TableColumn with one city number of measurements.
+     */
     @FXML
     private TableColumn<Weather, String> OCCNumber;
-
+    /**
+     *  Represents TableColumn with one city time of measure.
+     */
     @FXML
     private TableColumn<Weather, String> OCCtime;
-
+    /**
+     *  Represents TableColumn with one city temperature.
+     */
     @FXML
     private TableColumn<Weather, String> OCCTemp;
-
+    /**
+     *  Represents TableColumn with one city humidity.
+     */
     @FXML
     private TableColumn<Weather, String> OCChum;
-
+    /**
+     *  Represents TableColumn with one city pressure.
+     */
     @FXML
     private TableColumn<Weather, String> OCCpress;
-
+    /**
+     * Represents TextField with one city city name.
+     */
     @FXML
     private TextField OCCityTxt;
-
+    /**
+     * Represents ComboBox with one city units options.
+     */
     @FXML
     private ComboBox<String> OCUnits;
-
+    /**
+     * Represents TextField with one city interval of measurements.
+     */
     @FXML
     private TextField OCTimeS;
-
-    @FXML
-    private Text OCItyField;
-
-    @FXML
-    private Text OTimeTxt;
-
-    @FXML
-    private ChoiceBox<String> ChooseParameterBox;
-
-    @FXML
-    private ScatterChart<Number, Number> OCChart;
-
-    @FXML
-    private NumberAxis xAxis;
-
-    @FXML
-    private NumberAxis yAxis;
-
-    @FXML
-    private TextField NumberTxt;
-
-    @FXML
-    private TextField TStdTxt;
-
-    @FXML
-    private TextField HStdTxt;
-
-    @FXML
-    private TextField PStdTxt;
-
-    @FXML
-    private TextField TMaxTxt;
-
-    @FXML
-    private TextField HMaxTxt;
-
-    @FXML
-    private TextField PMaxTxt;
-
-    @FXML
-    private TextField TMinTxt;
-
-    @FXML
-    private TextField HMinTxt;
-
-    @FXML
-    private TextField PMinTxt;
-
-    @FXML
-    private ComboBox<String> TCUnits;
-
-    @FXML
-    private TextField TCTimeS;
-
-    @FXML
-    private LineChart<Number, Number> TCChart;
-
-    @FXML
-    private NumberAxis xAxis2;
-
-    @FXML
-    private NumberAxis yAxis2;
-
-    @FXML
-    private ScatterChart<Number, Number> ReadChart;
-
-    @FXML
-    private TextField DataName;
-
-    @FXML
-    private ComboBox<String> DataParameters;
-
-    @FXML
-    private Text Error;
-
-    @FXML
-    private TextField TC1;
-
-    @FXML
-    private TextField TC2;
-
+    /**
+     * Represents TextField with file name to save data.
+     */
     @FXML
     private TextField OCfileName;
-
+    /**
+     * Represents Text of information about incorrect city name input.
+     */
+    @FXML
+    private Text OCItyField;
+    /**
+     * Represents Text of information about incorrect interval input.
+     */
+    @FXML
+    private Text OTimeTxt;
+    /**
+     * Represents ChoiceBox with parameters on chart options.
+     */
+    @FXML
+    private ChoiceBox<String> ChooseParameterBox;
+    /**
+     * Represents one city chart.
+     */
+    @FXML
+    private ScatterChart<Number, Number> OCChart;
+    /**
+     * Represents horizontal axis of one city chart
+     */
+    @FXML
+    private NumberAxis xAxis;
+    /**
+     * Represents vertical axis of one city chart.
+     */
+    @FXML
+    private NumberAxis yAxis;
+    /**
+     * Represents TextField with number of measurements.
+     */
+    @FXML
+    private TextField NumberTxt;
+    /**
+     * Represents TextField with standard deviation of temperature.
+     */
+    @FXML
+    private TextField TStdTxt;
+    /**
+     * Represents TextField with standard deviation of humidity.
+     */
+    @FXML
+    private TextField HStdTxt;
+    /**
+     * Represents TextField with standard deviation of pressure.
+     */
+    @FXML
+    private TextField PStdTxt;
+    /**
+     * Represents TextField with maximal value of temperature.
+     */
+    @FXML
+    private TextField TMaxTxt;
+    /**
+     * Represents TextField with maximal value of humidity.
+     */
+    @FXML
+    private TextField HMaxTxt;
+    /**
+     * Represents TextField with maximal value of pressure.
+     */
+    @FXML
+    private TextField PMaxTxt;
+    /**
+     * Represents TextField with minimal value of temperature.
+     */
+    @FXML
+    private TextField TMinTxt;
+    /**
+     * Represents TextField with minimal value of humidity.
+     */
+    @FXML
+    private TextField HMinTxt;
+    /**
+     * Represents TextField with minimal value of pressure.
+     */
+    @FXML
+    private TextField PMinTxt;
+    /**
+     * Represents ComboBox with two city units options.
+     */
+    @FXML
+    private ComboBox<String> TCUnits;
+    /**
+     * Represents TextField with two city interval of measurements.
+     */
+    @FXML
+    private TextField TCTimeS;
+    /**
+     * Represents chart of two city temperatures.
+     */
+    @FXML
+    private LineChart<Number, Number> TCChart;
+    /**
+     * Represents two city chart horizontal axis.
+     */
+    @FXML
+    private NumberAxis xAxis2;
+    /**
+     * Represents two city chart vertical axis.
+     */
+    @FXML
+    private NumberAxis yAxis2;
+    /**
+     * Represents TextField with first of two cities name.
+     */
+    @FXML
+    private TextField TC1;
+    /**
+     * Represents TextField with second of two cities name.
+     */
+    @FXML
+    private TextField TC2;
+    /**
+     * Represents Text with message about wrong one or two city names.
+     */
     @FXML
     private Text TCCTxt;
-
+    /**
+     * Represents Text with message about wrong interval in two city part.
+     */
     @FXML
     private Text TCTTxt;
-
+    /**
+     * Represents horizontal axis of chart of read data.
+     */
+    @FXML
+    private NumberAxis RXAxis;
+    /**
+     * Represents vertical axis of chart of read data.
+     */
+    @FXML
+    private NumberAxis RYAxis;
+    /**
+     * Represents chart of read data.
+     */
+    @FXML
+    private ScatterChart<Number, Number> ReadChart;
+    /**
+     * Represents TextField with file to read name.
+     */
+    @FXML
+    private TextField DataName;
+    /**
+     * Represents ComboBox with read data chart parameters options to display.
+     */
+    @FXML
+    private ComboBox<String> DataParameters;
+    /**
+     * Represents Text with message about error during reading file.
+     */
+    @FXML
+    private Text Error;
+    /**
+     * Represents TableView with read data.
+     */
     @FXML
     private TableView<Weather> Table;
-
+    /**
+     * Represents Column with number of measurements of read data.
+     */
     @FXML
     private TableColumn<?, ?> TNum;
-
+    /**
+     * Represents Column with time of read data.
+     */
     @FXML
     private TableColumn<?, ?> TTime;
-
+    /**
+     * Represents Column with temperature of read data.
+     */
     @FXML
     private TableColumn<?, ?> TTemp;
-
+    /**
+     * Represents Column with humidity of read data.
+     */
     @FXML
     private TableColumn<?, ?> THum;
-
+    /**
+     * Represents Column with pressure of read data.
+     */
     @FXML
     private TableColumn<?, ?> TPres;
-
+    /**
+     * Represents Button that pauses all processes in application in one city part.
+     */
     @FXML
     private Button OCPause;
-
+    /**
+     * Represents Button that unpauses all processes in application in one city part.
+     */
     @FXML
     private Button OCPause1;
-
+    /**
+     * Represents Button that pauses all processes in application in two city part.
+     */
     @FXML
     private Button TCPause;
-
+    /**
+     * Represents Button that unpauses all processes in application in two city part.
+     */
     @FXML
     private Button TCPause1;
-
+    /**
+     * Represents Button that stops all processes in application in one city part.
+     */
     @FXML
     private Button OCStop;
-
+    /**
+     * Represents Button that stops all processes in application in two city part.
+     */
     @FXML
     private Button TCStop;
 
-
+    /**
+     * Creates an object.
+     */
     public Controller() {
     }
 
-    //formatowanie tekstu
+    /**
+     * Returns way of format text in TextFields where user writes city name.
+     *
+     * @return TextFormatter
+     */
     private TextFormatter format() { //prywatna metoda (może ją użyc tylko metoda z klasy) zwracająca obiekt typu TextFormatter
         //ustawienie formatowania tekstu w polach tekstowych (zeby nie wpisywać niedozwolonych wartości
         Pattern pattern = Pattern.compile("[a-zA-Z\\s\\']*"); //ustawienie wzoru formatowania tekstu
@@ -224,6 +367,11 @@ public class Controller {
         }); //metoda zwraca obiekt typu TextFormatter
     }
 
+    /**
+     * Returns way of format text in TextFields where user writes interval.
+     *
+     * @return TextFormatter
+     */
     private TextFormatter format2() { //prywatna metoda (może ją użyc tylko metoda z klasy) zwracająca obiekt typu TextFormatter
         //ustawienie formatowania tekstu w polach tekstowych (zeby nie wpisywać niedozwolonych wartości
         Pattern pattern = Pattern.compile("\\d{0,10}([\\.]\\d{0,2})?"); //ustawienie wzoru formatowania tekstu
@@ -237,7 +385,9 @@ public class Controller {
         return formatter2; //metoda zwraca obiekt typu TextFormatter
     }
 
-
+    /**
+     * Initialize application after launching.
+     */
     public void initialize() {
         //przygotowanie aplikacji
         OCUnits.setItems(units);
@@ -268,7 +418,11 @@ public class Controller {
 
     }
 
-    //one city
+    /**
+     * Method called after StartButton clicked. Starts all processes in one city part of application.
+     *
+     * @param event Start Button pressed.
+     */
     @FXML
     void OCStartClicked(ActionEvent event) {
 
@@ -329,7 +483,11 @@ public class Controller {
 
     }
 
-
+    /**
+     * Method called after PauseButton clicked. Pauses all processes in one city part of application.
+     *
+     * @param event Pause Button clicked.
+     */
     @FXML
     void OCPauseClicked(ActionEvent event) {
         ws1.stop();
@@ -337,6 +495,11 @@ public class Controller {
         OCPause1.setDisable(false);
     }
 
+    /**
+     * Method called after UnpauseButton clicked. Unpauses all processes in one city part of application.
+     *
+     * @param event Unpause Button clicked.
+     */
     @FXML
     void OCUPClicked(ActionEvent event) {
         ws1.start();
@@ -344,6 +507,11 @@ public class Controller {
         OCPause.setDisable(false);
     }
 
+    /**
+     * Method called after StopButton clicked. Stops all processes in one city part of application.
+     *
+     * @param event Stop Button clicked.
+     */
     @FXML
     void OCStopClicked(ActionEvent event) {
         ws1.interrupt();
@@ -358,8 +526,11 @@ public class Controller {
         OCPause.setDisable(true);
     }
 
-    //Two cities
-
+    /**
+     * Method called after StartButton clicked. Starts all processes in two city part of application.
+     *
+     * @param event Start Button clicked.
+     */
     @FXML
     void TCStartClicked(ActionEvent event) {
 
@@ -416,6 +587,11 @@ public class Controller {
         ws3.start();
     }
 
+    /**
+     * Method called after PauseButton clicked. Pauses all processes in two city part of application.
+     *
+     * @param event Pause Button clicked.
+     */
     @FXML
     void TCPauseClicked(ActionEvent event) {
         ws2.stop();
@@ -424,6 +600,11 @@ public class Controller {
         TCPause1.setDisable(false);
     }
 
+    /**
+     * Method called after UnpauseButton clicked. Unpauses all processes in two city part of application.
+     *
+     * @param event Unpause Button clicked.
+     */
     @FXML
     void TCUPClicked(ActionEvent event) {
         ws2.start();
@@ -432,6 +613,11 @@ public class Controller {
         TCPause.setDisable(false);
     }
 
+    /**
+     * Method called after StopButton clicked. Stops all processes in two city part of application.
+     *
+     * @param event Stop Button clicked.
+     */
     @FXML
     void TCStopClicked(ActionEvent event) {
         ws2.interrupt();
@@ -442,7 +628,11 @@ public class Controller {
 
     }
 
-    //read data
+    /**
+     * Method called after ReadButton clicked. Reads data from file and displays it.
+     *
+     * @param event ReadButton clicked.
+     */
     @FXML
     void ReadClicked(ActionEvent event) {
 
@@ -518,7 +708,11 @@ public class Controller {
 
     }
 
-
+    /**
+     * Saves gathered data to file.
+     *
+     * @param name File name
+     */
     private void saveToFile(String name) {
 
         Gson gson = new GsonBuilder()
@@ -536,6 +730,14 @@ public class Controller {
 
     }
 
+    /**
+     *Checks if city given by user is correct and reacts.
+     *
+     * @param toCheck city name user gave
+     * @param field TextField where name was given
+     * @param text Text with error message.
+     * @throws IllegalArgumentException
+     */
     private void cityCheck(String toCheck, TextField field, Text text) throws IllegalArgumentException {
 
         Gson gson = new GsonBuilder()
@@ -577,7 +779,13 @@ public class Controller {
 
     }
 
-
+    /**
+     * Checks if interval given by user is correct and reacts.
+     *
+     * @param interval interval given by user
+     * @param field TextField where interval was given
+     * @param text Text with error message
+     */
     private void timeCheck(int interval, TextField field, Text text) {
 
         if (interval < 2000) {
@@ -590,6 +798,12 @@ public class Controller {
 
     }
 
+    /**
+     * Formats city name to start with capital letter.
+     *
+     * @param city1 city name to format
+     * @return formated city name.
+     */
     private String formatCity(String city1) {
         city1 = city1.toLowerCase();
 
@@ -614,6 +828,12 @@ public class Controller {
         return city;
     }
 
+    /**
+     * Reads data from file with given in parameter name.
+     *
+     * @param name file name.
+     * @return Table with Weather objects.
+     */
     private Weather[] readData(String name) {
         //zeby sprawdzic poprawnosc odczytuje plik
         Weather[] weathers = null;

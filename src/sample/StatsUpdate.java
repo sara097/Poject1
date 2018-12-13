@@ -5,25 +5,86 @@ import javafx.scene.control.TextField;
 
 import java.util.ArrayList;
 
+/**
+ * Class StatsUpdate represents class that calculate stats of the weather parameters and display them. Implements Observer and Display interfaces.
+ *
+ * @author Sara Strzałka
+ * @version 1.0
+ */
 
 public class StatsUpdate implements Observer, Display {
 
+    /**
+     * Represents list of temperatures.
+     */
     private ArrayList<Double> temps = new ArrayList<>();
+    /**
+     * Represents list of humidity.
+     */
     private ArrayList<Double> hum = new ArrayList<>();
+    /**
+     * Represents list of pressures.
+     */
     private ArrayList<Double> press = new ArrayList<>();
+    /**
+     * Represents TextField to display number of measurements.
+     */
     private TextField NumberTxt;
+    /**
+     * Represents TextField to display minimal value of temperature
+     */
     private TextField TMinTxt;
+    /**
+     * Represents TextField to display minimal value of humidity.
+     */
     private TextField HMinTxt;
+    /**
+     * Represents TextField to display minimal value of pressure.
+     */
     private TextField PMinTxt;
+    /**
+     * Represents TextField to display maximal value of temperature.
+     */
     private TextField TMaxTxt;
+    /**
+     * Represents TextField to display maximal value of humidity.
+     */
     private TextField HMaxTxt;
+    /**
+     * Represents TextField to display maximal value of pressure
+     */
     private TextField PMaxTxt;
+    /**
+     * Represents TextField to display standatrd deviation of temperature.
+     */
     private TextField TStdTxt;
+    /**
+     * Represents TextField to display standatrd deviation of humidity.
+     */
     private TextField HStdTxt;
+    /**
+     * Represents TextField to display standatrd deviation of pressure.
+     */
     private TextField PStdTxt;
+    /**
+     * Represents table of double values of parameters stats.
+     */
     private double[] data = new double[10];
 
-
+    /**
+     * Creates object with given parameters.
+     *
+     * @param numberTxt TextField with number of measurements.
+     * @param TMinTxt TextField with minimal values of temperature.
+     * @param HMinTxt TextField with minimal values of humidity.
+     * @param PMinTxt TextField with minimal values of pressure.
+     * @param TMaxTxt TextField with maximal values of temperature.
+     * @param HMaxTxt TextField with maximal values of humidity.
+     * @param PMaxTxt TextField with maximal values of pressure.
+     * @param TStdTxt TextField with standard deviation of temperature.
+     * @param HStdTxt TextField with standard deviation of humidity.
+     * @param PStdTxt TextField with standard deviation of pressure.
+     */
     public StatsUpdate(TextField numberTxt, TextField TMinTxt, TextField HMinTxt, TextField PMinTxt, TextField TMaxTxt, TextField HMaxTxt, TextField PMaxTxt, TextField TStdTxt, TextField HStdTxt, TextField PStdTxt) {
         this.NumberTxt = numberTxt;
         this.TMinTxt = TMinTxt;
@@ -37,6 +98,9 @@ public class StatsUpdate implements Observer, Display {
         this.PStdTxt = PStdTxt;
     }
 
+    /**
+     * Assigns elements of arraylist data to TextFields.
+     */
     @Override
     public void display() {
 
@@ -56,6 +120,11 @@ public class StatsUpdate implements Observer, Display {
 
     }
 
+    /**
+     *  Updates arraylists with current weather data and calls method display().
+     *
+     * @param weather Updated Weather data.
+     */
     @Override
     public void updateData(Weather weather) {
 
@@ -69,6 +138,9 @@ public class StatsUpdate implements Observer, Display {
 
     }
 
+    /**
+     * Calculates values of weather parameters stats.
+     */
     private void calculate() {
         double stdT1 = 0;
         double stdH1 = 0;

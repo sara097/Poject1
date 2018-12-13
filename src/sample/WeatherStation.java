@@ -15,46 +15,81 @@ import java.util.ArrayList;
 import java.util.Map;
 import java.util.NoSuchElementException;
 
-
+/**
+ * Class WeatherStation represents Observable that updates Observers.
+ *
+ * @author Sara Strzałka
+ * @version 1.0
+ */
 public class WeatherStation implements Runnable, Observable {
 
-    //Atrybuty klasy
+    /**
+     * Represents result received from OpenWeatherAPI
+     */
     private String result;
+    /**
+     * Represents weather.
+     */
     private Weather weather = new Weather();
-
+    /**
+     * Represents units.
+     */
     private String units;
+    /**
+     * Represents AppiKey.
+     */
     private String appid;
+    /**
+     * Represents city name.
+     */
     private String city;
-
-    //te do runnable
+    /**
+     * Represents Therad.
+     */
     private Thread whtr;
+    /**
+     * Represents state of Thread.
+     */
     protected volatile boolean isRunning = false;
+    /**
+     * Represents the interval of Thread.
+     */
     private int interval = 10000;
+    /**
+     * Represents number of measurements.
+     */
     private int n = 0;
-
+    /**
+     * Represents list of Observers.
+     */
     private ArrayList<Observer> weatherUpdates = new ArrayList<>();
 
-
+    /**
+     * Creates object with given parameters.
+     * @param units Units.
+     * @param city City name.
+     * @param appid AppiKey.
+     */
     public WeatherStation(String units, String city, String appid) { //Konstruktor kasy
         this.units = units;
         this.appid = appid;
         this.city = city;
     }
 
-    public WeatherStation() { //Konstruktor kasy nie przyjmujący żadnych parametrów
-        this.units = "metric";
-        this.appid = "0cb8430587fd18e33b1ac06361927f0d";
-        this.city = "Wroclaw";
-    }
-
-    //Gettery i settery
-
+    /**
+     * Sets interval of Thread.
+     *
+     * @param interval Interval.
+     */
     public void setInterval(int interval) {
         this.interval = interval;
     }
 
-    //Metoda prywatna klasy (niedostępna dla użytkownika) zwracająca wartość String
-    //metoda pobiera ze strony OpenWeather pogodę i zwraca otrzymany ciąg znaków
+    /**
+     * Gets data of OpenWeatherAPI and returns String with result.
+     *
+     * @return
+     */
     private String getWeather() {
         try {
 
@@ -95,7 +130,9 @@ public class WeatherStation implements Runnable, Observable {
 
     }
 
-    //publiczna metoda typu void służąca do przypisania wartosci pogody atrybutom klasy
+    /**
+     * Maps received from OpenWeatherAPI result and split it into weather parameters, then sets this values to Weather object attributes.
+     */
     private void mapWeather() {
         //utworzenie GsonBuildera
         Gson gson = new GsonBuilder()
@@ -118,22 +155,34 @@ public class WeatherStation implements Runnable, Observable {
         n++;
     }
 
+    /**
+     * Creates reference and starts Thread.
+     */
     public void start() {
         whtr = new Thread(this, " Clock thread");
         whtr.start();
 
     }
 
+    /**
+     * Stops Thread.
+     */
     public void stop() {
         isRunning = false;
     }
 
+    /**
+     * Interrupts Thread.
+     */
     public void interrupt() {
 
         isRunning = false;
         whtr.interrupt();
     }
 
+    /**
+     * Maps weather when the Thread is started.
+     */
     @Override
     public void run() {
         isRunning = true;
@@ -151,12 +200,21 @@ public class WeatherStation implements Runnable, Observable {
 
     }
 
+    /**
+     * Adds observer to the list of Observers if the list does not contains this observer.
+     * @param observer Observer.
+     */
     @Override
     public void addObserver(Observer observer) {
         if (!weatherUpdates.contains(observer))
             weatherUpdates.add(observer);
     }
 
+    /**
+     * Removes Observer from list of Observers, when it contains this Observer.
+     * @param observer Observer
+     * @throws NoSuchElementException if there is no such observer in the list of Observers.
+     */
     @Override
     public void removeObserver(Observer observer) throws NoSuchElementException {
         if (weatherUpdates.contains(observer)) {
@@ -164,9 +222,13 @@ public class WeatherStation implements Runnable, Observable {
         } else {
             throw new IllegalArgumentException("No such observer");
         }
-
     }
 
+    /**
+     * Updates Observers with current weather parameters.
+     *
+     * @param forecast Current weather.
+     */
     @Override
     public void updateObservers(Weather forecast) {
 
