@@ -142,7 +142,7 @@ public class WeatherStation implements Runnable, Observable {
         String pogoda = getWeather(); //utworzenie Stringa z rezultatem ktory zwraca wywołana metoda getWeather
         Map m = gson.fromJson(pogoda, Map.class); //utworzzenie mapy obiektu
         String output = m.get("main").toString(); //utworzenie Stringa z interesującą nas wartością atrybutu obiektu
-        output = output.replaceAll("[^\\d.\\s]", ""); //usunięcie z atrubutu wszystkiego co nie jest liczbą, kropką lub spacją
+        output = output.replaceAll("[^\\d.\\s\\-]", ""); //usunięcie z atrubutu wszystkiego co nie jest liczbą, kropką lub spacją
         String[] parameters = output.split(" "); //rozdzielenie Stringa na tablice Stringów , gdzie każdy rodzielony był spacją
 
         //przypisanie wartości do atrubutów klasy
