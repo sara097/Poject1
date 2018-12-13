@@ -19,8 +19,8 @@ import java.util.NoSuchElementException;
 public class WeatherStation implements Runnable, Observable {
 
     //Atrybuty klasy
-    private String result; //zmienna, ktora jest rezultatem metody getWeather, nie ma settera bo nie chcę, żeby użytkownik mógł ją zmienić
-    private Weather forecast = new Weather();
+    private String result;
+    private Weather weather = new Weather();
 
     private String units;
     private String appid;
@@ -28,7 +28,7 @@ public class WeatherStation implements Runnable, Observable {
 
     //te do runnable
     private Thread whtr;
-    protected volatile boolean isRunning = false;  //volatile - zmiana od razu zostanie zapisana w pamieci glownej i chache zostaje uaktualniony //protected - dostep maja takze klasy dziedzieczace
+    protected volatile boolean isRunning = false;
     private int interval = 10000;
     private int n = 0;
 
@@ -109,12 +109,12 @@ public class WeatherStation implements Runnable, Observable {
         String[] parameters = output.split(" "); //rozdzielenie Stringa na tablice Stringów , gdzie każdy rodzielony był spacją
 
         //przypisanie wartości do atrubutów klasy
-        forecast = new Weather();
-        forecast.setTemp(Double.parseDouble(parameters[0]));
-        forecast.setPressure(Double.parseDouble(parameters[1]));
-        forecast.setHumidity(Double.parseDouble(parameters[2]));
-        forecast.setTime(LocalTime.now());
-        forecast.setN(n);
+        weather = new Weather();
+        weather.setTemp(Double.parseDouble(parameters[0]));
+        weather.setPressure(Double.parseDouble(parameters[1]));
+        weather.setHumidity(Double.parseDouble(parameters[2]));
+        weather.setTime(LocalTime.now());
+        weather.setN(n);
         n++;
     }
 
@@ -141,13 +141,12 @@ public class WeatherStation implements Runnable, Observable {
 
             try {
                 mapWeather();
-                updateObservers(forecast);
+                updateObservers(weather);
                 Thread.sleep(interval);
             } catch (InterruptedException e) {
                 Thread.currentThread().interrupt();
                 System.out.println("Failed to complete operation");
             }
-
         }
 
     }
