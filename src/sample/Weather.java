@@ -47,6 +47,8 @@ public class Weather {
         this.time = time;
     }
 
+    public LocalTime getTime(){return time;};
+
     @Override
     public String toString() {
         return n + " - " + temp + " - " + pressure + " - " + humidity;

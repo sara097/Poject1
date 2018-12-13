@@ -141,7 +141,6 @@ public class WeatherStation implements Runnable, Observable {
 
             try {
                 mapWeather();
-
                 updateObservers(forecast);
                 Thread.sleep(interval);
             } catch (InterruptedException e) {

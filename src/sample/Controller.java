@@ -332,7 +332,7 @@ public class Controller {
 
     @FXML
     void OCPauseClicked(ActionEvent event) {
-        ws1.interrupt();
+        ws1.stop();
         OCPause.setDisable(true);
         OCPause1.setDisable(false);
     }
@@ -347,7 +347,6 @@ public class Controller {
     @FXML
     void OCStopClicked(ActionEvent event) {
         ws1.interrupt();
-        ws1.stop();
         if (OCfileName.getText().equals("")) {
             OCfileName.setStyle("-fx-background-color: #ff3d44;");
         } else {
@@ -419,8 +418,8 @@ public class Controller {
 
     @FXML
     void TCPauseClicked(ActionEvent event) {
-        ws2.interrupt();
-        ws3.interrupt();
+        ws2.stop();
+        ws3.stop();
         TCPause.setDisable(true);
         TCPause1.setDisable(false);
     }
@@ -437,8 +436,6 @@ public class Controller {
     void TCStopClicked(ActionEvent event) {
         ws2.interrupt();
         ws3.interrupt();
-        ws2.stop();
-        ws3.stop();
         TCPause.setDisable(true);
         TCPause1.setDisable(true);
         TCStop.setDisable(true);
